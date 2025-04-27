@@ -1,0 +1,51 @@
+-- 게임 서비스 정의
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+local Backpack = LocalPlayer:WaitForChild("Backpack")
+
+-- "T" 아이템 생성 함수
+local function createTeleportTool()
+    -- 이미 "T" 아이템이 있는지 확인
+    if Backpack:FindFirstChild("T") or (LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("T")) then
+        return
+    end
+
+    -- 도구(Tool) 생성
+    local tool = Instance.new("Tool")
+    tool.Name = "T"
+    tool.RequiresHandle = false -- 핸들 불필요
+    tool.Parent = Backpack -- 인벤토리에 추가
+
+    -- 도구 아이콘 (선택 사항)
+    tool.TextureId = "rbxassetid://0" -- 원하는 아이콘 ID로 변경 가능
+
+    -- 도구 활성화 이벤트
+    tool.Activated:Connect(function()
+        -- 마우스 위치 가져오기
+        local mouse = LocalPlayer:GetMouse()
+        local hit = mouse.Hit
+        
+        if hit then
+            local targetPos = hit.Position
+            -- 캐릭터가 존재하는지 확인
+            if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                -- 텔레포트 (Y축 약간 위로 조정해 땅에 박히지 않도록)
+                LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPos + Vector3.new(0, 5, 0))
+            end
+        end
+    end)
+end
+
+-- Rayfield 버튼 추가 (Tab1에 추가한다고 가정)
+Tab1:CreateButton({
+    Name = "T 텔레포트 아이템 추가",
+    Callback = function()
+        createTeleportTool()
+        Rayfield:Notify({
+            Title = "아이템 추가됨",
+            Content = "'T' 아이템이 인벤토리에 추가되었습니다. 장착 후 클릭으로 텔레포트하세요!",
+            Duration = 5,
+        })
+    end,
+})
