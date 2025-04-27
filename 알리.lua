@@ -38,6 +38,7 @@ local Tab3 = Window:CreateTab("✅살보결")
 local Tab4 = Window:CreateTab("데드레일")
 local Tab5 = Window:CreateTab("가장강력한 전장")
 local Tab6 = Window:CreateTab("보물선 만들기")
+local Tab7 = Window:CreateTab("배드워즈")
 
 -- 메인 탭 버튼들
 Tab1:CreateButton({
@@ -77,7 +78,8 @@ Tab2:CreateButton({
     end,
 })
 
-local Slider = Tab1:CreateSlider({
+-- 스피드 슬라이더
+Tab1:CreateSlider({
     Name = "스피드",
     Range = {0, 300},
     Increment = 10,
@@ -89,13 +91,14 @@ local Slider = Tab1:CreateSlider({
     end,
  })
 
-local Slider = Tab1:CreateSlider({
+-- 점프 파워 슬라이더
+Tab1:CreateSlider({
     Name = "점프 파워",
     Range = {0, 600},
     Increment = 10,
     Suffix = "Bananas",
     CurrentValue = 10,
-    Flag = "Slider1", 
+    Flag = "Slider2",  -- 중복 방지
     Callback = function(Value)
         game.Players.LocalPlayer.Character.Humanoid.JumpPower = Value
     end,
@@ -175,5 +178,20 @@ Tab6:CreateButton({
     Name = "오토팜",
     Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/ExyXyz/ExyGantenk/main/ExyBABFT"))()
+    end,
+})
+
+-- 배드워즈 탭 버튼
+Tab7:CreateButton({
+    Name = "QP VAPE",
+    Callback = function()
+        loadstring(game:HttpGet("https://qpvape.org"))()
+    end,
+})
+
+Tab7:CreateButton({
+    Name = "Aurora V4",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/cocotv666/Aurora/refs/heads/main/Aurora_Loader"))()
     end,
 })
